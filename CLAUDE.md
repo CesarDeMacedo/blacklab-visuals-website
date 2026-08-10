@@ -1,5 +1,12 @@
 # CLAUDE.md — Frontend Website Rules
 
+> **Read `README.md` first.** It has the project structure, deployment setup
+> (GitHub Pages via Actions, auto-deploys on push to `main`), and a "current
+> state / where things stand" section describing what's built and what's
+> still open (e.g. the contact form doesn't send anywhere yet). This file
+> covers *how* to work on the project; the README covers *what it is* and
+> *where it's at*.
+
 ## Always Do First
 - **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
 
@@ -10,18 +17,15 @@
 
 ## Local Server
 - **Always serve on localhost** — never screenshot a `file:///` URL.
-- Start the dev server: `node serve.mjs` (serves the project root at `http://localhost:3000`)
+- Start the dev server: `node serve.mjs` (serves the project root at `http://localhost:3000`, no dependencies — just Node's built-in `http`/`fs`)
 - `serve.mjs` lives in the project root. Start it in the background before taking any screenshots.
 - If the server is already running, do not start a second instance.
 
 ## Screenshot Workflow
-- Puppeteer is installed at `C:/Users/nateh/AppData/Local/Temp/puppeteer-test/`. Chrome cache is at `C:/Users/nateh/.cache/puppeteer/`.
-- **Always screenshot from localhost:** `node screenshot.mjs http://localhost:3000`
-- Screenshots are saved automatically to `./temporary screenshots/screenshot-N.png` (auto-incremented, never overwritten).
-- Optional label suffix: `node screenshot.mjs http://localhost:3000 label` → saves as `screenshot-N-label.png`
-- `screenshot.mjs` lives in the project root. Use it as-is.
-- After screenshotting, read the PNG from `temporary screenshots/` with the Read tool — Claude can see and analyze the image directly.
-- When comparing, be specific: "heading is 32px but reference shows ~24px", "card gap is 16px but should be 24px"
+- There is no `screenshot.mjs` / Puppeteer setup in this project — use the **Claude-in-Chrome browser tool** (navigate, screenshot, zoom) against `http://localhost:3000` instead.
+- When taking a screenshot right after a scroll or an animation-triggering action, either wait ~1-2s or re-screenshot once — the first capture can land mid-transition (elements still fading/blurring in) and look broken when it isn't.
+- `document.hidden` is `true` for automation tabs in this environment (they're not OS-focused), which throttles/pauses CSS and SVG SMIL animations and can make `scroll` events not fire on programmatic `window.scrollTo()`. Prefer the browser tool's real `scroll` action over JS-driven scrolling when you need animations/scroll listeners to actually run; verify animation logic via computed styles / `animVal` rather than assuming a static screenshot proves it's broken.
+- When comparing to a reference, be specific: "heading is 32px but reference shows ~24px", "card gap is 16px but should be 24px"
 - Check: spacing/padding, font size/weight/line-height, colors (exact hex), alignment, border-radius, shadows, image sizing
 
 ## Output Defaults
@@ -34,6 +38,8 @@
 - Always check the `brand_assets/` folder before designing. It may contain logos, color guides, style guides, or images.
 - If assets exist there, use them. Do not use placeholders where real assets are available.
 - If a logo is present, use it. If a color palette is defined, use those exact values — do not invent brand colors.
+- `brand_assets/blacklab-brand-v2.md` is the **current** positioning/voice/copy source of truth (AI-driven visualization studio for infrastructure & real estate). `brand_assets/Blacklab-Brand-Guidelines.html` is v1 — its visual identity (colors, logo, type) still carries over unchanged, but its business positioning (photography studio) is superseded. Don't reintroduce v1 copy/positioning.
+- `brand_assets/brand_config.json` has the exact color/font tokens already wired into `index.html` as CSS custom properties — read from there, don't eyeball colors from screenshots.
 
 ## Anti-Generic Guardrails
 - **Colors:** Never use default Tailwind palette (indigo-500, blue-600, etc.). Pick a custom brand color and derive from it.
