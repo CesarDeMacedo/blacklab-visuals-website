@@ -1,0 +1,22 @@
+{
+  "brand_name": "Black Lab Visuals",
+  "logo_path": "assets/brand/blacklabvisuals_logo_01.png",
+  "colors": {
+    "primary": "#C5A572",
+    "primary_light": "#E8C87A",
+    "primary_dark": "#8C7040",
+    "bg_dark": "#050505",
+    "bg_dark_alt": "#101010",
+    "bg_dark_soft": "#1A1A1A",
+    "neutral_cream": "#F5F2EE",
+    "neutral_cream_soft": "#EDE8E0",
+    "neutral_cream_bright": "#FBF9F6",
+    "gray": "#9ca3af",
+    "gray_light": "#e5e7eb"
+  },
+  "fonts": {
+    "heading_font": "'Montserrat', Inter, system-ui, sans-serif",
+    "accent_font": "'Cormorant Garamond', Georgia, serif",
+    "body_font": "'Inter', system-ui, sans-serif"
+  }
+}
